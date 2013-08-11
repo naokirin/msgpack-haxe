@@ -73,7 +73,10 @@ class Decoder {
 					if (b < 0x80) {	return b;                            } else // positive fix num
 					if (b < 0x90) { return readMap(i, (0xf & b), obj);   } else // fix map
 					if (b < 0xa0) { return readArray(i, (0xf & b), obj); } else // fix array
-					if (b < 0xc0) { return i.read(0x1f & b).toString();  } else // fix raw
+					if (b < 0xc0) {
+						var s = i.read(0x1f & b).toString();
+						if (s != null) return s; else return "";
+					} else // fix raw
 					if (b > 0xdf) { return 0xffffff00 | b;               }      // negative fix num
 				}
 			}
